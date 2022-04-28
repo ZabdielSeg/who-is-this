@@ -1,23 +1,21 @@
-import logo from './logo.svg';
+import { Layout } from 'antd';
 import './App.css';
+import ActorCard from './components/ActorCard';
+import DragAndDrop from './components/DragAndDrop';
+const { Content } = Layout;
+
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Layout className='layout'>
+        <Content style={{ width: '60%', display: 'flex', margin: 'auto', justifyContent: 'center', alignItems: 'center' }} >
+          <div className="site-layout-content">
+            {/* <DragAndDrop /> */}
+            <ActorCard />
+          </div>
+        </Content>
+      </Layout>
     </div>
   );
 }
