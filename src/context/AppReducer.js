@@ -1,10 +1,11 @@
 const type = {
     getActorName: 'GET_ACTOR_NAME',
-    getActorInfo: 'GET_ACTOR_INFO'
+    getActorInfo: 'GET_ACTOR_INFO',
+    resetAll: 'RESET_ALL'
 };
 
 const initialState = {
-    actorName: '',
+    actorName: 'Julya Roberts',
     actorInfo: null
 };
 
@@ -15,13 +16,20 @@ const appReducer = (state, action) => {
                 ...state,
                 actorName: action.payload
             }
-        
+
         case type.getActorInfo:
             return {
                 ...state,
                 actorInfo: action.payload
             }
-    
+
+        case type.resetAll:
+            return {
+                ...state,
+                actorName: '',
+                actorInfo: null
+            }
+
         default:
             return state;
     }

@@ -29,11 +29,16 @@ const ActorCard = () => {
         return num === 0 ? 'Hombre' : 'Mujer';
     };
 
+    // const resetAll = () => {
+    //     navigate(-1);
+    //     dispatch({type: type.resetAll})
+    // }
+
     return (
         <div className="site-layout-content">
             <PageHeader
                 className="site-page-header"
-                onBack={() => navigate(-1)}
+                onBack={() => navigate(-1)} //resetAll puede ser usada aquí.
                 backIcon={<Button type="primary" icon={<ArrowLeftOutlined />} size="large">
                     Regresar
                 </Button>}
