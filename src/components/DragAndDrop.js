@@ -3,12 +3,13 @@ import { Upload, message, Typography } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { ActorContext } from '../context/ActorContext';
+import { type } from '../context/AppReducer';
 const { Title } = Typography;
 const { Dragger } = Upload;
 
 const DragAndDrop = () => {
     const navigate = useNavigate();
-    const { setActorName } = useContext(ActorContext);
+    const [, dispatch] = useContext(ActorContext);
 
     const props = {
         name: 'file',
@@ -23,7 +24,7 @@ const DragAndDrop = () => {
             const { status } = info.file;
             if (status === 'done') {
                 message.success(`${info.file.name} file uploaded successfully.`);
-                setActorName(info.fileList[0].response.actorName);
+                dispatch({type: type.getActorName, payload: info.fileList[0].response.actorName});
                 navigate('/the-celebrity');
             } else if (status === 'error') {
                 message.error(`${info.file.name} file upload failed.`);

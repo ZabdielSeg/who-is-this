@@ -1,27 +1,14 @@
-import axios from 'axios';
-import React, { createContext, useState } from 'react';
+import React, { createContext, useReducer } from 'react';
+import appReducer, { initialState } from './AppReducer';
 
 export const ActorContext = createContext();
 
-
-const ActorContextProvider = props => {
-    const [actorInfo, setActorInfo] = useState({});
-    const [actorName, setActorName] = useState('');
-
-    const getActorInfo = () => {
-        if (actorName) {
-            axios.get(`https://api.themoviedb.org/3/search/person?api_key=${process.env.REACT_APP_MOVIE_API_KEY}&language=en-US&query=${actorName}&page=1&include_adult=true`)
-                .then(response => {
-                    setActorInfo(response.data.results[0]);
-                })
-                .catch(err => console.log(err));
-        }
-    };
-
+const ActorContextProvider = ({ children }) => {
+    const [state, dispatch] = useReducer(appReducer, initialState);
 
     return (
-        <ActorContext.Provider value={{ getActorInfo, setActorName, actorInfo }}>
-            {props.children}
+        <ActorContext.Provider value={[state, dispatch]}>
+            { children }
         </ActorContext.Provider>
     )
 }

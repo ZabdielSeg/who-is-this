@@ -4,14 +4,26 @@ import { ArrowLeftOutlined } from '@ant-design/icons';
 import MovieCard from './MovieInfo';
 import { useNavigate } from 'react-router-dom';
 import { ActorContext } from '../context/ActorContext';
+import axios from 'axios';
+import { type } from '../context/AppReducer';
 const { Title, Text } = Typography;
 
 const ActorCard = () => {
+    const [state, dispatch] = useContext(ActorContext);
+    const { actorName, actorInfo } = state;
     const navigate = useNavigate();
-    const { actorInfo, getActorInfo } = useContext(ActorContext);
+
     useEffect(() => {
         getActorInfo();
-    }, [])
+    }, [actorName]);
+
+    const getActorInfo = () => {
+        axios.get(`https://api.themoviedb.org/3/search/person?api_key=${process.env.REACT_APP_MOVIE_API_KEY}&language=en-US&query=${actorName}&page=1&include_adult=true`)
+            .then(response => {
+                dispatch({ type: type.getActorInfo, payload: response.data.results[0] });
+            })
+            .catch(err => console.log(err));
+    };
 
     const getGender = num => {
         return num === 0 ? 'Hombre' : 'Mujer';
@@ -27,7 +39,7 @@ const ActorCard = () => {
                 </Button>}
                 title={' '}
             />
-            {actorInfo.name
+            {actorInfo?.name
                 ?
                 <Row>
                     <Col md={5} xs={24} className='actor-info'>
