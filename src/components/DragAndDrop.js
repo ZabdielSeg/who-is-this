@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Upload, message, Typography } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
+import { ActorContext } from '../context/ActorContext';
 const { Title } = Typography;
 const { Dragger } = Upload;
 
 const DragAndDrop = () => {
     const navigate = useNavigate();
+    const { setActorName } = useContext(ActorContext);
 
     const props = {
         name: 'file',
@@ -14,14 +16,15 @@ const DragAndDrop = () => {
         multiple: true,
         action: 'https://whois.nomada.cloud/upload',
         headers: {
-            'Nomada': 'YWM4MzA3ZTUtYTBjYi00ZTM2LTgyNjgtN2Q1OTRkZmIyZTg4'
+            'Nomada': process.env.REACT_APP_NOMADA_KEY
         },
         accept: '.png, .PNG, .jpg, .JPG',
         onChange(info) {
             const { status } = info.file;
             if (status === 'done') {
                 message.success(`${info.file.name} file uploaded successfully.`);
-                navigate(`/${info.fileList[0].response.actorName}`);
+                setActorName(info.fileList[0].response.actorName);
+                navigate('/the-celebrity');
             } else if (status === 'error') {
                 message.error(`${info.file.name} file upload failed.`);
             }
